@@ -14,7 +14,13 @@ raw <- read_csv("polls_IT-parliament_2018-10-01.csv")
 ```
 
 Purpose of this document is to show polling results in Italy.
-```{r, message = FALSE}
-
+```{r, first plot, message = FALSE}
+#just shows LN vote overtime 
+ggplot(raw, aes(y = LN, x = date, color = "red")) + 
+  geom_point() +
+  geom_point(aes(x = date, y = M5S, color = "blue"))
+  
+tidy_data <- raw %>%
+  gather(key = "party", value = "rating", FIPDLFI:Ncl)
 ```
 
