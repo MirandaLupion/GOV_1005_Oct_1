@@ -7,20 +7,22 @@ output: html_document
 
 ```{r setup, include=FALSE, echo=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+#loading the data and selecting the parties that I want
 library(dplyr)
 library(tidyverse)
 library(readr)
-raw <- read_csv("polls_IT-parliament_2018-10-01.csv")
+raw <- read_csv("polls_IT-parliament_2018-10-01.csv") %>% 
+  select(date, firm, n, LN, M5S, PD, FIPDLFI) 
 ```
 
 Purpose of this document is to show polling results in Italy.
-```{r, first plot, message = FALSE}
-#just shows LN vote overtime 
-ggplot(raw, aes(y = LN, x = date, color = "red")) + 
-  geom_point() +
-  geom_point(aes(x = date, y = M5S, color = "blue"))
-  
+```{r, tidy data and first plot, message = FALSE}
+#tidying the data 
 tidy_data <- raw %>%
-  gather(key = "party", value = "rating", FIPDLFI:Ncl)
+  gather(key = "party", value = "rating", LN:FIPDLFI)
+
+#Creating a plot from my tidy day 
+ggplot(tidy_data, aes(x = date, y = rating, color = party)) + 
+  geom_point()
 ```
 
